@@ -14,6 +14,9 @@ def create_app():
 
     from ai_backend.adaptive_learning.routes import adaptive_learning_bp
     app.register_blueprint(adaptive_learning_bp, url_prefix='/adaptive')
+
+    from ai_backend.security.routes import security_bp
+    app.register_blueprint(security_bp, url_prefix='/security')
     # Additional blueprint registrations can go here
 
     return app
