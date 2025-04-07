@@ -6,7 +6,7 @@ def create_app():
     app = Flask(__name__)
 
     # Load configuration settings
-    app.config.from_object('config.Config')
+    app.config.from_object('config.DevelopmentConfig')
 
     # Register blueprints
     from ai_backend.chatbot.engine import chatbot_bp
