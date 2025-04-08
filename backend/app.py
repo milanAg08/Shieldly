@@ -1,12 +1,15 @@
 # backend/app.py
 
 from flask import Flask
+from extensions import db
 
 def create_app():
     app = Flask(__name__)
 
     # Load configuration settings
     app.config.from_object('config.DevelopmentConfig')
+
+    db.init_app(app)
 
     # Register blueprints
     from ai_backend.chatbot.engine import chatbot_bp
