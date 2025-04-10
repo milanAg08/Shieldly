@@ -17,6 +17,9 @@ class User(db.Model):
     # Relationships
     interactions = db.relationship('Interaction', backref='user', lazy=True)
     progress_records = db.relationship('Progress', backref='user', lazy=True)
+
+    # Add to backend/ai_backend/models/user.py in the User class
+    journal_entries = db.relationship('JournalEntry', backref='user', lazy=True)
     
     def __repr__(self):
         return f'<User {self.username}>'
