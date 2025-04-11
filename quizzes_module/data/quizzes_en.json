@@ -1,0 +1,22 @@
+[
+    {
+        "question": "Which of the following is a safe touch?",
+        "options": ["Hug from a parent", "Stranger touching you", "Push in anger", "Hitting"],
+        "correctIndex": 0,
+        "hint": "Think about someone you know and trust.",
+        "explanation": "A hug from a parent is usually safe because they care for you.",
+        "category": "Good Touch"
+        ,"audio": "audio/safe_touch_en.mp3"
+      },
+      {
+        "question": "Who is a trusted adult you can talk to if something makes you uncomfortable?",
+        "options": ["Stranger", "Your teacher", "Random neighbor", "Someone online"],
+        "correctIndex": 1,
+        "hint": "Think of someone you know and see at school.",
+        "explanation": "Teachers are trusted adults who are there to help and protect students.",
+        "category": "Trusted Adults"
+        ,"audio": "audio/trusted_adults_en.mp3"
+      }
+      
+  ]
+  
