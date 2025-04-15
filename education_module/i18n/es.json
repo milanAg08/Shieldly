@@ -1,0 +1,51 @@
+{
+    "common": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "finish": "Terminar",
+      "continue": "Continuar",
+      "loading": "Cargando...",
+      "safe": "Seguro",
+      "unsafe": "Inseguro"
+    },
+    "stories": {
+      "goodBadTouch": {
+        "title": "Entendiendo el Contacto Físico",
+        "slides": [
+          "Algunos contactos nos hacen sentir seguros y queridos, como los abrazos de los miembros de la familia.",
+          "Algunos contactos nos hacen sentir incómodos o confundidos. Es importante reconocer estos sentimientos.",
+          "Tienes derecho a decir NO a cualquier contacto que te haga sentir incómodo.",
+          "Si alguien te toca de una manera que te hace sentir mal, díselo a un adulto de confianza de inmediato."
+        ]
+      },
+      "safeAdults": {
+        "title": "Adultos de Confianza",
+        "slides": [
+          "Los adultos de confianza son personas en las que podemos confiar para que nos ayuden cuando lo necesitamos.",
+          "Los adultos de confianza escuchan nuestras preocupaciones y respetan nuestros límites.",
+          "Los adultos de confianza no nos piden que guardemos secretos que nos hacen sentir incómodos.",
+          "Ejemplos de adultos de confianza pueden incluir padres, maestros, consejeros escolares y policías."
+        ]
+      }
+    },
+    "scenarios": {
+      "safeUnsafe": {
+        "title": "¿Contacto Seguro o Inseguro?",
+        "description": "Decide si cada situación muestra un contacto seguro o un contacto inseguro.",
+        "messages": {
+          "correct": "¡Correcto! ¡Buen trabajo!",
+          "incorrect": "No es correcto. Intentémoslo de nuevo."
+        }
+      }
+    },
+    "quizzes": {
+      "safetyBasics": {
+        "title": "Cuestionario de Seguridad",
+        "results": {
+          "great": "¡Excelente trabajo! ¡Entiendes bien los conceptos de seguridad!",
+          "good": "¡Buen trabajo! ¡Estás aprendiendo sobre seguridad!",
+          "needsReview": "Repasemos estos conceptos de seguridad de nuevo."
+        }
+      }
+    }
+  }
