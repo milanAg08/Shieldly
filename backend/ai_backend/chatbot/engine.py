@@ -5,7 +5,7 @@ import json
 import re
 from datetime import datetime
 
-from extensions import db
+from backend.extensions import db
 from ai_backend.models.interaction import Interaction
 from ai_backend.models.user import User
 from ai_backend.chatbot.safety_responses import get_safety_response

@@ -1,7 +1,7 @@
 # backend/ai_backend/adaptive_learning/quiz_analyzer.py
 
-from extensions import db
-from ai_backend.models.progress import Progress
+from backend.extensions import db
+from backend.ai_backend.models.progress import Progress
 from ai_backend.models.user import User
 from datetime import datetime
 

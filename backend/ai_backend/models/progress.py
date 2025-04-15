@@ -1,6 +1,6 @@
 # backend/ai_backend/models/progress.py
 
-from extensions import db
+from backend.extensions import db
 from datetime import datetime
 
 class Progress(db.Model):

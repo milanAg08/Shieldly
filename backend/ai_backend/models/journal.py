@@ -1,6 +1,6 @@
 # backend/ai_backend/models/journal.py
 
-from extensions import db
+from backend.extensions import db
 from datetime import datetime
 
 class JournalEntry(db.Model):
