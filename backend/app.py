@@ -20,6 +20,10 @@ def create_app():
 
     from ai_backend.security.routes import security_bp
     app.register_blueprint(security_bp, url_prefix='/security')
+
+    # Add to backend/app.py where you register other blueprints
+    from backend.ai_backend.journal.routes import journal_bp
+    app.register_blueprint(journal_bp, url_prefix='/api/journal')
     # Additional blueprint registrations can go here
 
     return app
