@@ -4,7 +4,7 @@ import quizzes_hi from "../data/quizzes_hi.json";
 import CategoryFilter from "./CategoryFilter";
 import "../styles/quizStyles.css";
 import React, { useState, useEffect, useRef } from "react";
-const [theme, setTheme] = useState("light");
+
 
 
 // 🔁 Shuffle utility
@@ -38,6 +38,7 @@ const getStarsForScore = (score, total) => {
 };
 
 export default function MultipleChoiceQuiz({ language = "en", onSubmit }) {
+  const [theme, setTheme] = useState("light");
   const audioRef = useRef(null);
 
   const rawData = getQuizData(language);
