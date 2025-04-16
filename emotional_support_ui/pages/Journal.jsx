@@ -10,7 +10,7 @@ export default function Journal() {
   return (
     <div className="journal-page">
       <MoodSelector mood={mood} setMood={setMood} />
-      <JournalEntryForm onSubmit={addEntry} />
+      <JournalEntryForm onSubmit={saveEntry} />
       <div className="entries-list">
         <h3>Your Entries</h3>
         {entries.map((e) => (
