@@ -1,0 +1,194 @@
+# AI Backend Documentation
+
+## Overview
+
+The AI backend for Shieldly provides several key components:
+
+1. **AI-Powered Chatbot**: Answers safety questions in multiple languages
+2. **Adaptive Learning Engine**: Tracks user progress, quizzes, and emotional responses
+3. **Data Privacy & Security Layer**: Handles encryption and access control
+4. **Journal System**: Allows users to record and track feelings with privacy options
+
+## Components
+
+### Chatbot
+
+The chatbot is implemented in `backend/ai_backend/chatbot/` and consists of:
+
+- `engine.py`: Core chatbot functionality
+- `safety_responses.py`: Pre-defined responses to common safety questions
+- `multilingual.py`: Translation and language detection capabilities
+
+#### Adding New Safety Questions
+
+To add new safety questions and responses:
+
+1. Open `safety_responses.py`
+2. Add new entries to the `SAFETY_RESPONSES` dictionary:
+
+```python
+SAFETY_RESPONSES = {
+    # Existing responses...
+
+    "new_question_pattern": {
+        "response": "Your detailed response here...",
+        "resources": [
+            {"title": "Resource Title", "url": "https://example.com/resource"}
+        ]
+    }
+}
+```
+
+#### Adding New Languages
+
+To add support for new languages:
+
+1. Open `multilingual.py`
+2. Add the new language code to the `SUPPORTED_LANGUAGES` list
+3. Ensure translations exist for all safety responses in the new language
+
+```python
+# Add a new language
+SUPPORTED_LANGUAGES = ['en', 'es', 'fr', 'de', 'zh', 'ja', 'new_language_code']
+
+# Add translations for the new language
+TRANSLATIONS = {
+    # Existing translations...
+
+    'new_language_code': {
+        'greeting': 'Greeting in new language',
+        'safety_intro': 'Safety introduction in new language',
+        # Add all other necessary translations
+    }
+}
+```
+
+### Adaptive Learning Engine
+
+The adaptive learning system is in `backend/ai_backend/adaptive_learning/` and includes:
+
+- `user_progress.py`: Tracks module completion and time spent
+- `quiz_analyzer.py`: Processes quiz results and updates progress
+- `emotional_tracking.py`: Monitors emotional states during learning
+
+#### Interpreting Emotional Tracking Data
+
+The emotional tracking system collects data on user emotions during learning and adapts content accordingly:
+
+- **Emotional States**: Include anxious, worried, scared, nervous, sad, confused, confident, interested
+- **Content Adaptations**: Based on emotional state, the system will adjust:
+  - Pace (slower/faster)
+  - Content detail (simplified/advanced)
+  - Supportive elements (reassurance, breaks, encouragement)
+  - Additional content (examples, coping strategies)
+
+Dashboard metrics to monitor:
+
+- Dominant emotional states across user base
+- Emotional trends (improving/worsening/stable)
+- Correlation between emotional states and module completion
+
+### Security Layer
+
+The security components are in `backend/ai_backend/security/` and include:
+
+- `data_encryption.py`: Handles encryption/decryption of sensitive data
+- `access_control.py`: Provides authentication and authorization
+
+#### Encryption Key Management
+
+The system uses AES encryption for sensitive data. The encryption key is derived from an environment variable `ENCRYPTION_KEY` that must be set securely in production.
+
+### Journal System
+
+The journal system is in `backend/ai_backend/journal/` and includes:
+
+- `routes.py`: API endpoints for journal entries
+- `JournalEntry` model: Stores encrypted or plaintext entries
+
+## API Endpoints
+
+### Chatbot API
+
+- `POST /api/chatbot/message`
+  - Request: `{"message": "user question", "language": "en"}`
+  - Response: `{"response": "chatbot response"}`
+
+### Adaptive Learning API
+
+- `POST /api/adaptive-learning/track-activity`
+
+  - Request: `{"module_id": "module_name", "time_spent": 300}`
+  - Response: `{"completion_percentage": 75.0}`
+
+- `POST /api/adaptive-learning/track-emotion`
+
+  - Request: `{"module_id": "module_name", "emotional_state": "anxious"}`
+  - Response: `{"support_response": "..." adaptation: {...}}`
+
+- `POST /api/adaptive-learning/quiz-result`
+
+  - Request: `{"module_id": "module_name", "quiz_id": "quiz1", "score": 85, "max_score": 100}`
+  - Response: `{"completion_percentage": 100.0}`
+
+- `GET /api/adaptive-learning/progress`
+  - Response: `{"total_modules": 5, "completed_modules": 3, ...}`
+
+### Journal API
+
+- `POST /api/journal/entries`
+
+  - Request: `{"content": "journal entry", "mood": "happy", "is_sensitive": false}`
+  - Response: `{"message": "Journal entry created successfully", "entry_id": 1}`
+
+- `GET /api/journal/entries`
+
+  - Response: `[{"id": 1, "date": "2025-04-16T10:00:00", "mood": "happy", "content": "..."}]`
+
+- `GET /api/journal/entries/<entry_id>`
+
+  - Response: `{"id": 1, "date": "2025-04-16T10:00:00", "mood": "happy", "content": "..."}`
+
+- `PUT /api/journal/entries/<entry_id>`
+
+  - Request: `{"content": "updated content", "mood": "content"}`
+  - Response: `{"message": "Entry updated successfully"}`
+
+- `DELETE /api/journal/entries/<entry_id>`
+  - Response: `{"message": "Entry deleted successfully"}`
+
+## Database Models
+
+### User
+
+The `User` model stores user information and authentication data.
+
+### Progress
+
+The `Progress` model tracks:
+
+- Module completion percentages
+- Time spent on modules
+- Emotional states during learning
+- Quiz scores and times
+
+### Interaction
+
+The `Interaction` model records individual user interactions with the system.
+
+### JournalEntry
+
+The `JournalEntry` model stores:
+
+- Journal content (plaintext or encrypted)
+- User mood
+- Timestamp information
+
+## Configuration
+
+Environment variables:
+
+- `FLASK_ENV`: Set to "development", "testing", or "production"
+- `SECRET_KEY`: Used for token generation
+- `ENCRYPTION_KEY`: Used for encrypting sensitive data
+- `DATABASE_URL`: Database connection string
