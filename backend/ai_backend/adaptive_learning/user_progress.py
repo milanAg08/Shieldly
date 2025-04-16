@@ -228,7 +228,7 @@ class UserProgressTracker:
                     })
         
         return recommendations
-    
+   
     # backend/ai_backend/adaptive_learning/user_progress.py
 
 # Add these optimized methods to your UserProgressTracker class
@@ -236,73 +236,73 @@ class UserProgressTracker:
     def get_optimized_progress_summary(self):
         """
         Get summary of user's progress across all modules with optimized queries
-    
-    Returns:
-        dict: Summary of user progress
-    """
-    try:
-        # Use a single query with aggregate functions
-        from sqlalchemy import func
         
-        # Get total modules and completion stats in one query
-        stats = db.session.query(
-            func.count().label('total_modules'),
-            func.sum(
-                func.case(
-                    [(Progress.completion_percentage >= 100.0, 1)], 
-                    else_=0
-                )
-            ).label('completed_modules'),
-            func.sum(Progress.time_spent).label('total_time_spent'),
-            func.avg(Progress.completion_percentage).label('avg_completion')
-        ).filter_by(user_id=self.user_id).first()
-        
-        # Get recent modules - use limit to avoid large result sets
-        recent_cutoff = datetime.utcnow() - timedelta(days=7)
-        recent_modules = Progress.query.filter_by(user_id=self.user_id).filter(
-            Progress.last_activity >= recent_cutoff
-        ).order_by(Progress.last_activity.desc()).limit(10).all()
-        
-        recent_module_data = [
-            {
-                'module_id': p.module_id,
-                'last_activity': p.last_activity.isoformat(),
-                'completion_percentage': p.completion_percentage
+        Returns:
+            dict: Summary of user progress
+        """
+        try:
+            # Use a single query with aggregate functions
+            from sqlalchemy import func
+            
+            # Get total modules and completion stats in one query
+            stats = db.session.query(
+                func.count().label('total_modules'),
+                func.sum(
+                    func.case(
+                        [(Progress.completion_percentage >= 100.0, 1)], 
+                        else_=0
+                    )
+                ).label('completed_modules'),
+                func.sum(Progress.time_spent).label('total_time_spent'),
+                func.avg(Progress.completion_percentage).label('avg_completion')
+            ).filter_by(user_id=self.user_id).first()
+            
+            # Get recent modules - use limit to avoid large result sets
+            recent_cutoff = datetime.utcnow() - timedelta(days=7)
+            recent_modules = Progress.query.filter_by(user_id=self.user_id).filter(
+                Progress.last_activity >= recent_cutoff
+            ).order_by(Progress.last_activity.desc()).limit(10).all()
+            
+            recent_module_data = [
+                {
+                    'module_id': p.module_id,
+                    'last_activity': p.last_activity.isoformat(),
+                    'completion_percentage': p.completion_percentage
+                }
+                for p in recent_modules
+            ]
+            
+            # Get modules needing attention - with efficient filters
+            attention_modules = Progress.query.filter_by(user_id=self.user_id).filter(
+                Progress.completion_percentage < 100.0,
+                Progress.last_activity < recent_cutoff
+            ).order_by(Progress.completion_percentage.asc()).limit(5).all()
+            
+            attention_module_data = [
+                {
+                    'module_id': p.module_id,
+                    'completion_percentage': p.completion_percentage,
+                    'last_activity': p.last_activity.isoformat()
+                }
+                for p in attention_modules
+            ]
+            
+            # Calculate completion rate safely
+            completion_rate = (
+                stats.completed_modules / stats.total_modules 
+                if stats.total_modules > 0 else 0
+            )
+            
+            return {
+                'total_modules': stats.total_modules,
+                'completed_modules': stats.completed_modules,
+                'completion_rate': completion_rate,
+                'total_time_spent': stats.total_time_spent,
+                'average_completion': stats.avg_completion or 0,
+                'recent_modules': recent_module_data,
+                'needs_attention': attention_module_data
             }
-            for p in recent_modules
-        ]
-        
-        # Get modules needing attention - with efficient filters
-        attention_modules = Progress.query.filter_by(user_id=self.user_id).filter(
-            Progress.completion_percentage < 100.0,
-            Progress.last_activity < recent_cutoff
-        ).order_by(Progress.completion_percentage.asc()).limit(5).all()
-        
-        attention_module_data = [
-            {
-                'module_id': p.module_id,
-                'completion_percentage': p.completion_percentage,
-                'last_activity': p.last_activity.isoformat()
-            }
-            for p in attention_modules
-        ]
-        
-        # Calculate completion rate safely
-        completion_rate = (
-            stats.completed_modules / stats.total_modules 
-            if stats.total_modules > 0 else 0
-        )
-        
-        return {
-            'total_modules': stats.total_modules,
-            'completed_modules': stats.completed_modules,
-            'completion_rate': completion_rate,
-            'total_time_spent': stats.total_time_spent,
-            'average_completion': stats.avg_completion or 0,
-            'recent_modules': recent_module_data,
-            'needs_attention': attention_module_data
-        }
-    except Exception as e:
-        print(f"Error generating optimized progress summary: {e}")
-        # Fall back to standard method if optimization fails
-        return self.get_progress_summary()
+        except Exception as e:
+            print(f"Error generating optimized progress summary: {e}")
+            # Fall back to standard method if optimization fails
+            return self.get_progress_summary()
