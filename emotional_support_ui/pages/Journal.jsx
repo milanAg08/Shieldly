@@ -5,7 +5,7 @@ import useJournalStorage from "../hooks/useJournalStorage";
 
 export default function Journal() {
   const [mood, setMood] = useState("");
-  const { entries, addEntry } = useJournalStorage();
+  const { entries, saveEntry } = useJournalStorage();
 
   return (
     <div className="journal-page">
