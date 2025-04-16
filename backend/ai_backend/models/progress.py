@@ -11,6 +11,10 @@ class Progress(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     module_id = db.Column(db.String(50), nullable=False)
     
+    __table_args__ = (
+        db.Index('idx_user_module', 'user_id', 'module_id'),
+    )
+    
     # Progress tracking
     completion_percentage = db.Column(db.Float, default=0.0)
     time_spent = db.Column(db.Integer, default=0)  # in seconds
